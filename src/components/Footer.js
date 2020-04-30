@@ -1,11 +1,14 @@
 import React from 'react';
+import { auth } from '../services/firebase';
+
 
 function Footer() {
   return (
-    <footer className="pt-5">
-      <div className="container text-center">
-        <p>&copy; Chatty 2020.</p>
+    <footer>
+      <div className="footer-copyright">
+        <p><small>&copy; Sadovszky &amp; Sims 2020</small></p>
       </div>
+      <button className="btn btn-primary mr-3" onClick={() => auth().signOut()}>Logout</button>
     </footer>
   )
 }

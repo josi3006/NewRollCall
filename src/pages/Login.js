@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { signin, signInWithGoogle, signInWithGitHub } from "../helpers/auth";
+// import { Link } from "react-router-dom";
+import { signin } from "../helpers/auth";
+import Logo from "../components/logo";
+import Footer from "../components/Footer"
+import "./login.css"
 
 export default class Login extends Component {
   constructor() {
@@ -12,8 +15,8 @@ export default class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.googleSignIn = this.googleSignIn.bind(this);
-    this.githubSignIn = this.githubSignIn.bind(this);
+    // this.googleSignIn = this.googleSignIn.bind(this);
+    // this.githubSignIn = this.githubSignIn.bind(this);
   }
 
   handleChange(event) {
@@ -32,21 +35,21 @@ export default class Login extends Component {
     }
   }
 
-  async googleSignIn() {
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      this.setState({ error: error.message });
-    }
-  }
+  // async googleSignIn() {
+  //   try {
+  //     await signInWithGoogle();
+  //   } catch (error) {
+  //     this.setState({ error: error.message });
+  //   }
+  // }
 
-  async githubSignIn() {
-    try {
-      await signInWithGitHub();
-    } catch (error) {
-      this.setState({ error: error.message });
-    }
-  }
+  // async githubSignIn() {
+  //   try {
+  //     await signInWithGitHub();
+  //   } catch (error) {
+  //     this.setState({ error: error.message });
+  //   }
+  // }
 
   render() {
     return (
@@ -56,55 +59,64 @@ export default class Login extends Component {
           autoComplete="off"
           onSubmit={this.handleSubmit}
         >
-          <h1>
-            Login to
-            <Link className="title ml-2" to="/">
-              Chatty
-            </Link>
-          </h1>
-          <p className="lead">
-            Fill in the form below to login to your account.
-          </p>
-          <div className="form-group">
-            <input
-              className="form-control"
-              placeholder="Email"
-              name="email"
-              type="email"
-              onChange={this.handleChange}
-              value={this.state.email}
-            />
+          <Logo />
+
+          <div className="row">
+
+            <div className="col s12">
+              <div className="form-group">
+                <input
+                  className="form-control"
+                  placeholder="Email"
+                  name="email"
+                  type="email"
+                  onChange={this.handleChange}
+                  value={this.state.email}
+                />
+              </div>
+            </div>
           </div>
-          <div className="form-group">
-            <input
-              className="form-control"
-              placeholder="Password"
-              name="password"
-              onChange={this.handleChange}
-              value={this.state.password}
-              type="password"
-            />
+
+          <div className="row">
+
+            <div className="col s12">
+
+              <div className="form-group">
+                <input
+                  className="form-control"
+                  placeholder="Password"
+                  name="password"
+                  onChange={this.handleChange}
+                  value={this.state.password}
+                  type="password"
+                />
+              </div>
+            </div>
           </div>
-          <div className="form-group">
-            {this.state.error ? (
-              <p className="text-danger">{this.state.error}</p>
-            ) : null}
-            <button className="btn btn-primary px-5" type="submit">Login</button>
+
+          <div className="row">
+
+            <div className="col s12">
+              <div className="form-group">
+                {this.state.error ? (
+                  <p className="error-text">{this.state.error}</p>
+                ) : null}
+                <div className="buttoncontainer">
+
+                  <button className="transparent btn waves-effect waves-light" type="submit">Login</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <p>You can also log in with any of these services</p>
-          <button className="btn btn-danger mr-2" type="button" onClick={this.googleSignIn}>
-            Sign in with Google
-          </button>
-          <button className="btn btn-secondary" type="button" onClick={this.githubSignIn}>
-            Sign in with GitHub
-          </button>
-          <hr />
-          <p>
-            Don't have an account? <Link to="/signup">Sign up</Link>
-          </p>
+
         </form>
 
-      </div>
+        <p><small>&copy; Sadovszky &amp; Sims 2020</small></p>
+
+        {/* Get rid of footer component before build */}
+        <Footer />
+
+      </div >
     );
   }
 }
