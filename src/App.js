@@ -6,7 +6,7 @@ import {
   Redirect
 } from "react-router-dom";
 import Home from "./pages/Home";
-// import Chat from "./pages/Chat";
+import Chat from "./pages/Chat";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -85,6 +85,13 @@ class App extends Component {
               authenticated={this.state.authenticated}
               component={Dashboard}
             />
+            <PrivateRoute
+              path="/chat"
+              authenticated={this.state.authenticated}
+              component={Chat}
+            />
+
+
             <PublicRoute
               path="/signup"
               authenticated={this.state.authenticated}

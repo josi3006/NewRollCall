@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Footer from "../components/Footer";
 import { auth } from "../services/firebase";
 import { db } from "../services/firebase";
+import Navbar from "../components/Navbar";
+import "./chat.css"
 
 export default class Chat extends Component {
   constructor(props) {
@@ -28,7 +30,7 @@ export default class Chat extends Component {
         snapshot.forEach((snap) => {
           chats.push(snap.val());
         });
-        chats.sort(function (a, b) { return a.timestamp - b.timestamp })
+        chats.sort(function (a, b) { return b.timestamp - a.timestamp })
         this.setState({ chats });
         chatArea.scrollBy(0, chatArea.scrollHeight);
         this.setState({ loadingChats: false });
@@ -63,39 +65,82 @@ export default class Chat extends Component {
 
   formatTime(timestamp) {
     const d = new Date(timestamp);
-    const time = `${d.getDate()}/${(d.getMonth()+1)}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+    const time = `${d.getMonth()}/${(d.getDate() + 1)}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
     return time;
   }
 
+
   render() {
     return (
-      <div>
-        {/* <Header /> */}
+
+
+
+      <div className="container">
+        <Navbar />
+
+
 
         <div className="chat-area" ref={this.myRef}>
-          {/* loading indicator */}
-          {this.state.loadingChats ? <div className="spinner-border text-success" role="status">
-            <span className="sr-only">Loading...</span>
-          </div> : ""}
-          {/* chat area */}
-          {this.state.chats.map(chat => {
-            return <p key={chat.timestamp} className={"chat-bubble " + (this.state.user.uid === chat.uid ? "current-user" : "")}>
-              {chat.content}
-              <br />
-              <span className="chat-time float-right">{this.formatTime(chat.timestamp)}</span>
-            </p>
-          })}
+
+
+          <div className="row">
+
+            <div className="col s2"></div>
+
+            <div className="col s8">
+
+              {/* loading indicator */}
+              {this.state.loadingChats ? <div className="spinner-border text-success" role="status">
+                <span className="sr-only">Loading...</span>
+              </div> : ""}
+
+              <form onSubmit={this.handleSubmit} className="mx-3">
+                <div className="section">
+
+                  <textarea className="form-control" name="content" onChange={this.handleChange} value={this.state.content}></textarea>
+                  {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
+                </div>
+                <div className="section">
+
+
+                  <button type="submit" className="transparent z-depth-1 waves-effect waves-light btn"><i className='material-icons icon-creamyyy right'>
+                    send
+									</i>Send</button>
+                </div>
+
+
+              </form>
+
+
+
+              {/* chat area */}
+              {this.state.chats.map(chat => {
+                return <p key={chat.timestamp} className={"chat-bubble " + (this.state.user.uid === chat.uid ? "current-user" : "")}>
+                  {chat.content}
+                  <br />
+                  <span className="chat-time float-right"><small>{this.formatTime(chat.timestamp)}</small></span>
+                </p>
+              })}
+
+
+            </div>
+
+            <div className="col s2"></div>
+
+
+          </div>
+
+
         </div>
-        <form onSubmit={this.handleSubmit} className="mx-3">
-          <textarea className="form-control" name="content" onChange={this.handleChange} value={this.state.content}></textarea>
-          {this.state.error ? <p className="text-danger">{this.state.error}</p> : null}
-          <button type="submit" className="btn btn-submit px-5 mt-4">Send</button>
-        </form>
-        <div className="py-5 mx-3">
+
+        <div>
           Logged in as: <strong className="text-info">{this.state.user.email}</strong>
         </div>
         <Footer />
-      </div>
+
+
+
+      </div >
     );
   }
 }
